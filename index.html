@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKZ  Stage | Stray Kids Everywhere All Around The World</title>
+    <style>
+        /* Paleta SKZ (Negro, Rojo Fuego y Gris Industrial) */
+        :root {
+            --skz-bg: #050505; 
+            --skz-panel: #111111;
+            --skz-red: #ff0000;
+            --skz-dark-red: #990000;
+            --skz-silver: #e0e0e0;
+            --skz-text: #ffffff;
+            --skz-muted: #666666;
+            --skz-gradient: linear-gradient(135deg, #ff0000 0%, #111111 100%);
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            font-family: 'Inter', 'Oswald', sans-serif; 
+            background-color: var(--skz-bg);
+            background-image: 
+                linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--skz-text);
+            margin: 0; 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+        }
+
+        #chat-container {
+            flex: none;
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+            max-width: 850px;
+            height: 85vh;
+            background-color: var(--skz-panel);
+            border-radius: 12px; 
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        /* Cabecera estilo "District 9" / Industrial */
+        header {
+            background: #000;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--skz-red);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            border-bottom: 3px solid var(--skz-red);
+            position: relative;
+        }
+
+        header::after {
+            content: 'SKZ-TALK';
+            position: absolute;
+            right: 20px;
+            font-size: 0.6rem;
+            color: white;
+            letter-spacing: 1px;
+            top: 25px;
+            opacity: 0.5;
+        }
+
+        /* Área de mensajes */
+        #chat-window {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 14px 20px;
+            border-radius: 8px; /* Menos redondeado, más "duro" */
+            line-height: 1.5;
+            font-size: 0.95rem;
+            position: relative;
+            border-left: 4px solid transparent;
+        }
+
+        /* Burbuja Bot (Stray Kids AI) */
+        .bot-msg {
+            align-self: flex-start;
+            background-color: #1a1a1a;
+            color: var(--skz-silver);
+            border: 1px solid #333;
+            border-left: 4px solid var(--skz-red);
+        }
+
+        /* Burbuja Usuario (STAY) */
+        .user-msg {
+            align-self: flex-end;
+            background-color: var(--skz-red);
+            color: white;
+            font-weight: 600;
+            box-shadow: 5px 5px 0px rgba(153, 0, 0, 0.5);
+        }
+
+        /* Indicador de carga estilo "Warning" */
+        #loading {
+            display: none;
+            padding: 10px;
+            font-size: 0.8rem;
+            color: var(--skz-red);
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: flicker 0.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        /* Entrada de texto industrial */
+        .input-group {
+            display: flex;
+            padding: 20px;
+            background: #0a0a0a;
+            border-top: 1px solid #222;
+            gap: 12px;
+        }
+
+        input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #111;
+            color: white;
+            outline: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        input:focus { 
+            border-color: var(--skz-red);
+        }
+
+        button {
+            background: var(--skz-red);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        button:hover { 
+            background: white;
+            color: black;
+        }
+
+        button:disabled { 
+            background: #333; 
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Scrollbar Rojo SKZ */
+        #chat-window::-webkit-scrollbar { width: 4px; }
+        #chat-window::-webkit-scrollbar-thumb { 
+            background: var(--skz-red); 
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <header>STRAY KIDS | MANGO STEP 🏁</header>
+    
+    <div id="chat-window">
+        <div class="message bot-msg">Step Out! 🎤 Bienvenido a la zona SKZ. ¿Qué quieres saber sobre el STAY?</div>
+    </div>
+
+    <div id="loading">Cocinando el menú (God's Menu)... 🔥</div>
+
+    <div class="input-group">
+        <input type="text" id="user-input" placeholder="Escribe tu consulta rebelde..." autocomplete="off">
+        <button id="send-button">Preguntar</button>
+    </div>
+</div>
+
+<script>
+    const chatWindow = document.getElementById('chat-window');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const loading = document.getElementById('loading');
+
+    function appendMessage(role, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', role === 'user' ? 'user-msg' : 'bot-msg');
+        msgDiv.innerText = text;
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        appendMessage('user', text);
+        userInput.value = '';
+        
+        userInput.disabled = true;
+        sendButton.disabled = true;
+        loading.style.display = 'block';
+
+        try {
+            const response = await fetch("https://adonairlariva-chatbot.hf.space/query", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: text })
+            });
+
+            const data = await response.json();
+            appendMessage('bot', data.response);
+            
+        } catch (err) {
+            appendMessage('bot', "¡ERROR! El sistema ha sido interrumpido. Inténtalo de nuevo. ⚠️");
+            console.error(err);
+        } finally {
+            userInput.disabled = false;
+            sendButton.disabled = false;
+            loading.style.display = 'none';
+            userInput.focus();
+        }
+    }
+
+    sendButton.onclick = sendMessage;
+    userInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
+</script>
+
+</body>
+</html>
